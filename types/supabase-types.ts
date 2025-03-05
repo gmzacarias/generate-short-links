@@ -5,16 +5,16 @@ export interface Database {
                 Row: {
                     id: number;
                     url: string;
-                    shortUrl: string;
+                    short_url: string;
                     code:string;
-                    createdAt: Date
+                    created_at: Date
                 }
                 Insert: {
                     id: never;
                     url: string;
-                    shortUrl: string;
+                    short_url: string;
                     code:string;
-                    createdAt: never;
+                    created_at: never;
                 }
             }
         }
