@@ -6,12 +6,14 @@ export interface Database {
                     id: number;
                     url: string;
                     shortUrl: string;
+                    code:string;
                     createdAt: Date
                 }
                 Insert: {
                     id: never;
                     url: string;
-                    shortUrl: never;
+                    shortUrl: string;
+                    code:string;
                     createdAt: never;
                 }
             }
