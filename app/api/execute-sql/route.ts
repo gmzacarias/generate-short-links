@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { insertData } from "@/lib/supabase-db"
+
 
 export async function POST(req: NextRequest) {
     const data = req.body
