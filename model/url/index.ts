@@ -1,7 +1,7 @@
 import { Database } from "@/types/supabase-types"
 
 
-class Url {
+export class Url {
     id?: string;
     url: string;
     shortUrl?: string | null = null;
