@@ -68,7 +68,7 @@ export class Url {
             if (error) {
                 throw new Error(error.message)
             }
-           return data[0].short_url ?? null
+           return data
         } catch (error: any) {
             console.error("Hubo un problema al insertar los datos:", error.message)
             throw new Error("Error al insertar los datos:", error.message)

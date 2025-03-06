@@ -15,9 +15,18 @@ if (currentEnvironment === Environment.Development) {
     BASE_URL = "https://testapi.com"
 }
 
-async function generateLink(url: string) {
-
-
-
-
+export async function generateAndSaveUrl (url: string) {
+    const cleanUrl = Url.cleanUrl(url)
+    try {
+        const newUrl = new Url(cleanUrl)
+        const verifyCode = await Url.checkCode(newUrl.code)
+        if (verifyCode) {
+            throw new Error("el codigo ya fue generado.")
+        }
+        const insertData = await Url.savedData(url, newUrl.short_url, newUrl.code)
+        return insertData
+    } catch (error: any) {
+        console.error("No se pudo guardar los datos en Supabase:", error.message)
+        throw Error
+    }
 }
