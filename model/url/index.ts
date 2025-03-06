@@ -6,7 +6,7 @@ export class Url {
     url: string;
     short_url?: string | null = null;
     created_at?: Date;
-    constructor(url: string, shortUrl: string, code: string) {
+    constructor(url: string) {
         if (!url) {
             throw new Error("Ingresar una url valida")
         }
@@ -16,23 +16,18 @@ export class Url {
 
     static async checkCode(code: string): Promise<Boolean> {
         try {
-            const { data: urls, error } = await supabase
+            const { data, error } = await supabase
                 .from("urls")
                 .select("code")
-
-            if (error) {
-                throw new Error(error.message)
-            }
-            for (const url of urls) {
-                const codeData = url.code
-                if (codeData === code) {
-                    throw new Error("el codigo ya fue generado");
+                .eq("code", code)
+                .single()
+                if(error){
+                    throw new Error(error.message)
                 }
-            }
-            return true
+            return !!data
         } catch (error: any) {
             console.error("Hubo un problema al comparar los codigos: ", error.message)
-            throw Error
+            throw new Error ("Error al verificar el codigo: ",error.message)
         }
     }
 
