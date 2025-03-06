@@ -1,8 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { generateAndSaveUrl } from "@/controller/url"
 
+interface RequestBody {
+    url: string
+}
+
 export async function POST(req: NextRequest) {
-    const { url } = await req.json() as any
+    const { url }: RequestBody = await req.json() as any
     try {
         await generateAndSaveUrl(url)
         if (!url) {
