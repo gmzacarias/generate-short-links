@@ -1,4 +1,3 @@
-import { Database } from "@/types/supabase-types"
 import { supabase } from "@/lib/supabase-db"
 
 export class Url {
@@ -17,6 +16,10 @@ export class Url {
         this.short_url = Url.createShortUrl(url, this.code);
         this.created_at = new Date;
     }
+    
+    static cleanUrl(url: string) {
+        return url.trim()
+    }
 
     private static generateShortCode() {
         const characters = "abcdefghijklmnopqrstuvwxyz0123456789"
@@ -32,12 +35,12 @@ export class Url {
             const { data, error } = await supabase
                 .from("urls")
                 .select("code")
-                .neq("code", code)
+                .eq("code", code)
                 .single()
             if (error) {
                 throw new Error(error.message)
             }
-            return !data
+            return !!data
         } catch (error: any) {
             console.error("Hubo un problema al comparar los codigos: ", error.message)
             throw new Error("Error al verificar el codigo: ", error.message)
