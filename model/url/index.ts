@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase-db"
 
+
 export class Url {
     id?: number;
     url: string;
@@ -16,7 +17,7 @@ export class Url {
         this.short_url = Url.createShortUrl(url, this.code);
         this.created_at = new Date;
     }
-    
+
     static cleanUrl(url: string) {
         return url.trim()
     }
@@ -52,7 +53,7 @@ export class Url {
         return url.concat(code)
     }
 
-    static async savedData(url: string, shortUrl: string, code: string) {
+    static async savedData(url: string, shortUrl: string, code: string){
         try {
             const { data, error } = await supabase
                 .from('urls')
@@ -67,7 +68,7 @@ export class Url {
             if (error) {
                 throw new Error(error.message)
             }
-            return data
+           return data[0].short_url ?? null
         } catch (error: any) {
             console.error("Hubo un problema al insertar los datos:", error.message)
             throw new Error("Error al insertar los datos:", error.message)
