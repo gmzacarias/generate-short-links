@@ -2,23 +2,23 @@ import { Database } from "@/types/supabase-types"
 import { supabase } from "@/lib/supabase-db"
 
 export class Url {
-    id: number;
+    id?: number;
     url: string;
     short_url: string;
     code: string;
     created_at: Date
-    constructor(id: number, url: string, short_url: string, code: string, created_at: Date) {
+   
+    constructor(url: string) {
         if (!url) {
             throw new Error("Ingresar una url valida")
         }
-        this.id = id;
         this.url = url;
-        this.short_url = short_url;
-        this.code = code;
-        this.created_at = created_at;
+        this.code = Url.generateShortCode();
+        this.short_url = Url.createShortUrl(url, this.code);
+        this.created_at = new Date;
     }
 
-    static generateShortCode() {
+    private static generateShortCode() {
         const characters = "abcdefghijklmnopqrstuvwxyz0123456789"
         let code = ""
         for (let i = 0; i < 6; i++) {
@@ -45,8 +45,8 @@ export class Url {
     }
 
 
-    static createShortUrl(url: string, code: string) {
-      return url.concat(code)
+    private static createShortUrl(url: string, code: string) {
+        return url.concat(code)
     }
 
     static async savedData(url: string, shortUrl: string, code: string) {
