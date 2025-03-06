@@ -7,7 +7,7 @@ export class Url {
     short_url: string;
     code: string;
     created_at: Date
-   
+
     constructor(url: string) {
         if (!url) {
             throw new Error("Ingresar una url valida")
@@ -32,12 +32,12 @@ export class Url {
             const { data, error } = await supabase
                 .from("urls")
                 .select("code")
-                .eq("code", code)
+                .neq("code", code)
                 .single()
             if (error) {
                 throw new Error(error.message)
             }
-            return !!data
+            return !data
         } catch (error: any) {
             console.error("Hubo un problema al comparar los codigos: ", error.message)
             throw new Error("Error al verificar el codigo: ", error.message)
