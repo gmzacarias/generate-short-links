@@ -1,16 +1,21 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { insertData } from "@/lib/supabase-db"
+import { generateAndSaveUrl } from "@/controller/url"
 
 export async function POST(req: NextRequest) {
+    const { url } = await req.json() as any
     try {
-        const createData = await insertData()
-
+        await generateAndSaveUrl(url)
+        if (!url) {
+            return NextResponse.json(
+                { message: "debe ingresar una url valida", success: false },
+                { status: 400 }
+            )
+        }
         return NextResponse.json(
-            { message:"dato agregado", success: true },
+            { message: "dato agregado", success: true },
             { status: 200 }
         )
     } catch (error: any) {
-        console.error("Error en la API: ", error.message)
         return NextResponse.json(
             { message: "hubo un error al ingresar los datos", error: error.message, success: false },
             { status: 500 }

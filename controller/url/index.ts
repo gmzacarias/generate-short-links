@@ -23,10 +23,11 @@ export async function generateAndSaveUrl (url: string) {
         if (verifyCode) {
             throw new Error("el codigo ya fue generado.")
         }
-        const insertData = await Url.savedData(url, newUrl.short_url, newUrl.code)
+        const shortUrl=Url.createShortUrl(BASE_URL,newUrl.code)
+        const insertData = await Url.savedData(url,shortUrl,newUrl.code)
         return insertData
     } catch (error: any) {
         console.error("No se pudo guardar los datos en Supabase:", error.message)
-        throw Error
+        throw new Error (error.message)
     }
 }

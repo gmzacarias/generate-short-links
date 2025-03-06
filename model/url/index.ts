@@ -35,22 +35,22 @@ export class Url {
         try {
             const { data, error } = await supabase
                 .from("urls")
-                .select("code")
+                .select()
                 .eq("code", code)
-                .single()
+                .maybeSingle()
             if (error) {
                 throw new Error(error.message)
             }
             return !!data
         } catch (error: any) {
             console.error("Hubo un problema al comparar los codigos: ", error.message)
-            throw new Error("Error al verificar el codigo: ", error.message)
+            throw new Error(error.message)
         }
     }
 
 
-    private static createShortUrl(url: string, code: string) {
-        return url.concat(code)
+    static createShortUrl(url: string, code: string) {
+        return url.concat(`/${code}`)
     }
 
     static async savedData(url: string, shortUrl: string, code: string){
@@ -71,7 +71,7 @@ export class Url {
            return data
         } catch (error: any) {
             console.error("Hubo un problema al insertar los datos:", error.message)
-            throw new Error("Error al insertar los datos:", error.message)
+            throw new Error(error.message)
         }
     }
 }
