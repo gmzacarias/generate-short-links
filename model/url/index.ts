@@ -22,9 +22,6 @@ export class Url {
         return code
     }
 
-
-
-
     static async checkCode(code: string): Promise<Boolean> {
         try {
             const { data, error } = await supabase
@@ -43,9 +40,11 @@ export class Url {
     }
 
 
-    static async shortenUrl(url: string) {
-
+    static createShortUrl(url: string, code: string) {
+        const newUrl = url.concat(code)
+        return newUrl
     }
 
+    
 
 }
