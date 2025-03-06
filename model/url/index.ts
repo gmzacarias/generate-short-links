@@ -13,6 +13,17 @@ export class Url {
         this.url = url;
     }
 
+    static generateShortCode() {
+        const characters = "abcdefghijklmnopqrstuvwxyz0123456789"
+        let code = ""
+        for (let i = 0; i < 6; i++) {
+            code += characters.charAt(Math.floor(Math.random() * characters.length))
+        }
+        return code
+    }
+
+
+
 
     static async checkCode(code: string): Promise<Boolean> {
         try {
@@ -21,13 +32,13 @@ export class Url {
                 .select("code")
                 .eq("code", code)
                 .single()
-                if(error){
-                    throw new Error(error.message)
-                }
+            if (error) {
+                throw new Error(error.message)
+            }
             return !!data
         } catch (error: any) {
             console.error("Hubo un problema al comparar los codigos: ", error.message)
-            throw new Error ("Error al verificar el codigo: ",error.message)
+            throw new Error("Error al verificar el codigo: ", error.message)
         }
     }
 
