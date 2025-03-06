@@ -2,15 +2,20 @@ import { Database } from "@/types/supabase-types"
 import { supabase } from "@/lib/supabase-db"
 
 export class Url {
-    id?: string;
+    id: number;
     url: string;
-    short_url?: string | null = null;
-    created_at?: Date;
-    constructor(url: string) {
+    short_url: string;
+    code: string;
+    created_at: Date
+    constructor(id: number, url: string, short_url: string, code: string, created_at: Date) {
         if (!url) {
             throw new Error("Ingresar una url valida")
         }
+        this.id = id;
         this.url = url;
+        this.short_url = short_url;
+        this.code = code;
+        this.created_at = created_at;
     }
 
     static generateShortCode() {
@@ -45,6 +50,25 @@ export class Url {
         return newUrl
     }
 
-    
+    static async savedData(url: string, shortUrl: string, code: string) {
+        try {
+            const { data, error } = await supabase
+                .from('urls')
+                .insert(
+                    {
+                        url: url,
+                        short_url: shortUrl,
+                        code: code,
+                    })
+                .select()
 
+            if (error) {
+                throw new Error(error.message)
+            }
+            return data
+        } catch (error: any) {
+            console.error("Hubo un problema al insertar los datos:", error.message)
+            throw new Error("Error al insertar los datos:", error.message)
+        }
+    }
 }
