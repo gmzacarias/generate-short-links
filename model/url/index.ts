@@ -46,8 +46,7 @@ export class Url {
 
 
     static createShortUrl(url: string, code: string) {
-        const newUrl = url.concat(code)
-        return newUrl
+      return url.concat(code)
     }
 
     static async savedData(url: string, shortUrl: string, code: string) {
