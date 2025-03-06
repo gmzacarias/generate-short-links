@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
             )
         }
         return NextResponse.json(
-            { message: "dato agregado", success: true },
+            { message: "datos ingresados correctamente", success: true },
             { status: 200 }
         )
     } catch (error: any) {
