@@ -7,31 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       urls: {
@@ -43,11 +18,11 @@ export type Database = {
           url: string | null
         }
         Insert: {
-          code?: string | null
+          code: string | null
           created_at?: string
           id?: number
-          short_url?: string | null
-          url?: string | null
+          short_url: string | null
+          url: string | null
         }
         Update: {
           code?: string | null
@@ -66,8 +41,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      dsadada: "dasdsaa" | "dasdsaacd"
-    }
+        [_ in never]: never
+      }
     CompositeTypes: {
       [_ in never]: never
     }
