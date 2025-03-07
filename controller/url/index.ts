@@ -42,3 +42,14 @@ export async function deleteById(id: string) {
         throw new Error(error.message)
     }
 }
+
+export async function redirectUrl(code:string){
+try {
+    const verifyCode=await Url.checkCode(code)
+    console.log("redirect controller",verifyCode)
+    return verifyCode
+} catch (error:any) {
+    console.error("no se pudo redirigir a la url solicitada:",error.message)
+    throw new Error(error.message)
+}
+}
