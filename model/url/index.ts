@@ -30,7 +30,7 @@ export class Url {
         return code
     }
 
-    static async checkCode(code: string): Promise<Boolean> {
+    static async checkCode(code: string){
         try {
             const { data, error } = await supabase
                 .from("urls")
@@ -40,7 +40,10 @@ export class Url {
             if (error) {
                 throw new Error(error.message)
             }
-            return !!data
+            if(!data){
+                throw new Error("el codigo ingresado no existe")
+            }
+            return data
         } catch (error: any) {
             console.error("Hubo un problema al comparar los codigos: ", error.message)
             throw new Error(error.message)

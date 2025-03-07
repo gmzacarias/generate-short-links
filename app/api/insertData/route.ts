@@ -6,7 +6,7 @@ interface RequestBody {
 }
 
 export async function POST(req: NextRequest) {
-    const { url }: RequestBody = await req.json() as any
+    const { url }: RequestBody = await req.json()
     try {
         await generateAndSaveUrl(url)
         if (!url) {
