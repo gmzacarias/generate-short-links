@@ -1,16 +1,19 @@
 import { type NextRequest, NextResponse } from "next/server"
+import { schemaRedirectUrl } from "@/lib/zod-schema"
 import { redirectUrl } from "@/controller/url"
 
 export async function GET(req: NextRequest, { params }: { params: { code: string } }) {
-    const code = (await params).code
+    const paramsCode = await params
     try {
-        if (!code) {
+        const isValidate = schemaRedirectUrl.safeParse(paramsCode)
+        if (!isValidate.success) {
             return NextResponse.json(
-                { message: "debe ingresar un code valido", success: false },
+                { message: "debe ingresar un code valido",error:isValidate.error.errors },
                 { status: 400 }
             )
         }
-        const url = await redirectUrl(code)
+        //agregar schema para validar si hay una url valida
+        const url = await redirectUrl(paramsCode.code)
         if (!url) {
             return NextResponse.json(
                 { message: "no se encontro una url valida", success: false },
