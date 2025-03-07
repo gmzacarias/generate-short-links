@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
+import { schemaCreateUrl } from "@/lib/zod-schema"
 import { generateAndSaveUrl } from "@/controller/url"
 
 interface RequestBody {
@@ -6,15 +7,19 @@ interface RequestBody {
 }
 
 export async function POST(req: NextRequest) {
-    const { url }: RequestBody = await req.json()
+    const body: RequestBody = await req.json()
+
+    console.log("body", body)
     try {
-        await generateAndSaveUrl(url)
-        if (!url) {
+        const isValidate = schemaCreateUrl.safeParse(body)
+        if (!isValidate.success) {
             return NextResponse.json(
-                { message: "debe ingresar una url valida", success: false },
+                { message: "no se pudo validar la url", error: isValidate.error.errors},
                 { status: 400 }
             )
         }
+        console.log("validar", body.url)
+        await generateAndSaveUrl(body.url)
         return NextResponse.json(
             { message: "datos ingresados correctamente", success: true },
             { status: 200 }
