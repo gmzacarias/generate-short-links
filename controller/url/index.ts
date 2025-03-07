@@ -35,9 +35,8 @@ export async function generateAndSaveUrl(url: string) {
 export async function deleteById(id: string) {
     try {
         const dataId = await Url.checkId(id)
-        const deleteId=await Url.deleteUrl(id)
-        
-        return dataId
+        const deleteId = await Url.deleteUrl(id)
+        return deleteId
     } catch (error: any) {
         console.error("no se pudo eliminar el registro", error.message)
         throw new Error(error.message)
