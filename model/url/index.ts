@@ -21,7 +21,7 @@ export class Url {
         return url.trim()
     }
 
-    private static generateShortCode() {
+   static generateShortCode() {
         const characters = "abcdefghijklmnopqrstuvwxyz0123456789"
         let code = ""
         for (let i = 0; i < 6; i++) {
@@ -30,7 +30,7 @@ export class Url {
         return code
     }
 
-    static async checkCode(code: string){
+    static async checkCode(code: string) {
         try {
             const { data, error } = await supabase
                 .from("urls")
@@ -40,7 +40,7 @@ export class Url {
             if (error) {
                 throw new Error(error.message)
             }
-            if(!data){
+            if (!data) {
                 throw new Error("el codigo ingresado no existe")
             }
             return data

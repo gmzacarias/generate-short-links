@@ -8,7 +8,7 @@ const currentEnvironment = process.env.NODE_ENV
 let BASE_URL: string
 
 if (currentEnvironment === Environment.Development) {
-    BASE_URL = "https://localhost:3000"
+    BASE_URL = "http://localhost:3000"
 } else if (currentEnvironment === Environment.Production) {
     BASE_URL = "https://google.com.ar"
 } else if (currentEnvironment === Environment.Test) {
@@ -19,12 +19,18 @@ export async function generateAndSaveUrl(url: string) {
     const cleanUrl = Url.cleanUrl(url)
     try {
         const newUrl = new Url(cleanUrl)
-        const verifyCode = await Url.checkCode(newUrl.code)
-        if (verifyCode) {
-            throw new Error("el codigo ya fue generado.")
+        const shortUrl = Url.createShortUrl(`${BASE_URL}/api/redirect`, newUrl.code)
+        let duplicateCode = true
+        let finalCode: string = newUrl.code
+        while (duplicateCode) {
+            try {
+                await Url.checkCode(finalCode)
+                finalCode = Url.generateShortCode()    
+            } catch (error) {
+                duplicateCode=false
+            }
         }
-        const shortUrl = Url.createShortUrl(BASE_URL, newUrl.code)
-        const insertData = await Url.savedData(url, shortUrl, newUrl.code)
+        const insertData = await Url.savedData(url, shortUrl, finalCode)
         return insertData
     } catch (error: any) {
         console.error("No se pudo guardar los datos en Supabase:", error.message)
