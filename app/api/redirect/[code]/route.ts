@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
+import { redirectUrl } from "@/controller/url"
 
-export async function POST(req: NextRequest, { params }: { params: { code: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { code: string } }) {
     const code = (await params).code
     try {
         if (!code) {
@@ -9,11 +10,14 @@ export async function POST(req: NextRequest, { params }: { params: { code: strin
                 { status: 400 }
             )
         }
-
-        return NextResponse.json(
-            { success: true },
-            { status: 200 }
-        )
+        const url = await redirectUrl(code)
+        if (!url) {
+            return NextResponse.json(
+                { message: "no se encontro una url valida", success: false },
+                { status: 404 }
+            )
+        }
+        return NextResponse.redirect(url, 301)
     } catch (error: any) {
         return NextResponse.json(
             { message: "hubo un error al redireccionar", error: error.message, success: false },
