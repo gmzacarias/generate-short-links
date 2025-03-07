@@ -47,6 +47,23 @@ export class Url {
         }
     }
 
+    static async checkId(id: string): Promise<Boolean> {
+        const numberId = parseInt(id)
+        try {
+            const { data, error } = await supabase
+                .from("urls")
+                .select()
+                .eq("id", numberId)
+                .single()
+            if (error) {
+                throw new Error(error.message)
+            }
+            return !!data
+        } catch (error: any) {
+            console.error("Hubo un problema al comparar los Ids: ", error.message)
+            throw new Error(error.message)
+        }
+    }
 
     static createShortUrl(url: string, code: string) {
         return url.concat(`/${code}`)
@@ -73,9 +90,6 @@ export class Url {
         }
     }
 
-
-
-
     static async deleteUrl(id: string) {
         const numberId = parseInt(id)
         console.log("id model", numberId)
@@ -84,12 +98,11 @@ export class Url {
                 .from('urls')
                 .delete()
                 .eq('id', numberId)
-            console.log("model",data,error)
+            console.log("model", data, error)
             return data
         } catch (error: any) {
             console.error("hubo un problema al eliminar el id ingresado en Supabase", error.message)
             throw new Error(error.message)
         }
     }
-
 }
