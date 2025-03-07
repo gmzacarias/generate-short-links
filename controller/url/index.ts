@@ -15,7 +15,7 @@ if (currentEnvironment === Environment.Development) {
     BASE_URL = "https://testapi.com"
 }
 
-export async function generateAndSaveUrl (url: string) {
+export async function generateAndSaveUrl(url: string) {
     const cleanUrl = Url.cleanUrl(url)
     try {
         const newUrl = new Url(cleanUrl)
@@ -23,11 +23,24 @@ export async function generateAndSaveUrl (url: string) {
         if (verifyCode) {
             throw new Error("el codigo ya fue generado.")
         }
-        const shortUrl=Url.createShortUrl(BASE_URL,newUrl.code)
-        const insertData = await Url.savedData(url,shortUrl,newUrl.code)
+        const shortUrl = Url.createShortUrl(BASE_URL, newUrl.code)
+        const insertData = await Url.savedData(url, shortUrl, newUrl.code)
         return insertData
     } catch (error: any) {
         console.error("No se pudo guardar los datos en Supabase:", error.message)
-        throw new Error (error.message)
+        throw new Error(error.message)
+    }
+}
+
+export async function deleteById(id: string) {
+    try {
+        const dataId = await Url.deleteUrl(id)
+        // if (!dataId) {
+        //     throw new Error(`no se pudo encontrar el registro id ${id}`)
+        // }
+        return dataId
+    } catch (error: any) {
+        console.error(`no se pudo eliminar el registro con el id ${id}:`, error.message)
+        throw new Error(error.message)
     }
 }

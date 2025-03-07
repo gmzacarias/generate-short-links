@@ -1,10 +1,22 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { generateAndSaveUrl } from "@/controller/url"
+import { deleteById } from "@/controller/url"
 
-export async function Delete(req: NextRequest,{params}:{params:{id:string}}) {
-    const id = await params.id
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+    const id= (await params).id
+    console.log("id api", id)
     try {
-        
+        if (!id) {
+            return NextResponse.json(
+                { message: "debe ingresar una id valida", success: false },
+                { status: 400 }
+            )
+        }
+        await deleteById(id)
+        return NextResponse.json(
+            { message: "datos eliminados correctamente", success: true },
+            { status: 200 }
+        )
     } catch (error: any) {
         return NextResponse.json(
             { message: "hubo un error al eliminar los datos", error: error.message, success: false },
