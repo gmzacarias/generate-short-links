@@ -1,16 +1,18 @@
 import { type NextRequest, NextResponse } from "next/server"
+import {schemaDeleteId} from "@/lib/zod-schema"
 import { deleteById } from "@/controller/url"
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-    const id= (await params).id
+    const paramsId= await params
     try {
-        if (!id) {
+        const isValidate=schemaDeleteId.safeParse(paramsId)
+        if (!isValidate.success) {
             return NextResponse.json(
-                { message: "debe ingresar una id valida", success: false },
+                { message: "debe ingresar una id valida",error:isValidate.error.errors},
                 { status: 400 }
             )
         }
-        await deleteById(id)
+        await deleteById(paramsId.id)
         return NextResponse.json(
             { message: "datos eliminados correctamente", success: true },
             { status: 200 }
