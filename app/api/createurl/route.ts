@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
                 { status: 400 }
             )
         }
-        console.log("validar", body.url)
         await generateAndSaveUrl(body.url)
         return NextResponse.json(
             { message: "datos ingresados correctamente", success: true },
