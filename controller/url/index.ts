@@ -34,13 +34,12 @@ export async function generateAndSaveUrl(url: string) {
 
 export async function deleteById(id: string) {
     try {
-        const dataId = await Url.deleteUrl(id)
-        // if (!dataId) {
-        //     throw new Error(`no se pudo encontrar el registro id ${id}`)
-        // }
+        const dataId = await Url.checkId(id)
+        const deleteId=await Url.deleteUrl(id)
+        
         return dataId
     } catch (error: any) {
-        console.error(`no se pudo eliminar el registro con el id ${id}:`, error.message)
+        console.error("no se pudo eliminar el registro", error.message)
         throw new Error(error.message)
     }
 }

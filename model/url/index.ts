@@ -54,9 +54,12 @@ export class Url {
                 .from("urls")
                 .select()
                 .eq("id", numberId)
-                .single()
+                .maybeSingle()
             if (error) {
                 throw new Error(error.message)
+            }
+            if (!data) {
+                throw new Error(`el id ${id} ingresado no existe en la tabla urls`)
             }
             return !!data
         } catch (error: any) {
@@ -92,14 +95,12 @@ export class Url {
 
     static async deleteUrl(id: string) {
         const numberId = parseInt(id)
-        console.log("id model", numberId)
         try {
-            const { data, error } = await supabase
+            const response = await supabase
                 .from('urls')
                 .delete()
                 .eq('id', numberId)
-            console.log("model", data, error)
-            return data
+            return response
         } catch (error: any) {
             console.error("hubo un problema al eliminar el id ingresado en Supabase", error.message)
             throw new Error(error.message)

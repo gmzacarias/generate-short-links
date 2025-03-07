@@ -1,10 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { deleteById } from "@/controller/url"
 
-
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
     const id= (await params).id
-    console.log("id api", id)
     try {
         if (!id) {
             return NextResponse.json(
