@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from "next/server"
 import {schemaDeleteId} from "@/lib/zod-schema"
 import { deleteById } from "@/controller/url"
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params:Promise<{ id: string }>}) {
     const paramsId= await params
     try {
         const isValidate=schemaDeleteId.safeParse(paramsId)
