@@ -2,8 +2,8 @@ import { type NextRequest, NextResponse } from "next/server"
 import { schemaRedirectUrl } from "@/lib/zod-schema"
 import { redirectUrl } from "@/controller/url"
 
-export async function GET(req: NextRequest, { params }: { params: { code: string } }) {
-    const paramsCode = await params
+export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
+    const paramsCode = {code:params.slug}
     try {
         const isValidate = schemaRedirectUrl.safeParse(paramsCode)
         if (!isValidate.success) {
