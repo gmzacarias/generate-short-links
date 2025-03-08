@@ -8,8 +8,6 @@ interface RequestBody {
 
 export async function POST(req: NextRequest) {
     const body: RequestBody = await req.json()
-
-    console.log("body", body)
     try {
         const isValidate = schemaCreateUrl.safeParse(body)
         if (!isValidate.success) {
