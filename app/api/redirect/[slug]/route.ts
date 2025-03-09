@@ -12,7 +12,6 @@ export async function GET(req: NextRequest, { params, }: { params: Promise<{ slu
                 { status: 400 }
             )
         }
-        //agregar schema para validar si hay una url valida
         const url = await redirectUrl(paramsCode.code)
         if (!url) {
             return NextResponse.json(
