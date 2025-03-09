@@ -43,8 +43,8 @@ export type Database = {
     Functions: {
       increment: {
         Args: {
-          value: number
-          row_code: string
+          x: number
+          row_id: number
         }
         Returns: undefined
       }

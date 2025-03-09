@@ -112,10 +112,10 @@ export class Url {
         }
     }
 
-    static async countVisits(code: string) {
+    static async countVisits(id:number) {
         try {
             const { data, error } = await supabase
-                .rpc("increment", { value: 1, row_code: code })
+                .rpc("increment", { x: 1, row_id: id })
             if (error) {
                 throw new Error(error.message)
             }

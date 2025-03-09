@@ -52,6 +52,7 @@ export async function deleteById(id: string) {
 export async function redirectUrl(code: string) {
     try {
         const verifyCode = await Url.checkCode(code)
+        await Url.countVisits(verifyCode.id)
         const originalUrl = verifyCode.url
         return originalUrl
     } catch (error: any) {
