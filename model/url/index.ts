@@ -5,8 +5,8 @@ export class Url {
     url: string;
     short_url: string;
     code: string;
-    created_at: Date
-
+    created_at: Date;
+    visits: number;
     constructor(url: string) {
         if (!url) {
             throw new Error("Ingresar una url valida")
@@ -15,13 +15,15 @@ export class Url {
         this.code = Url.generateShortCode();
         this.short_url = Url.createShortUrl(url, this.code);
         this.created_at = new Date;
+        this.visits = 0;
+
     }
 
     static cleanUrl(url: string) {
         return url.trim()
     }
 
-   static generateShortCode() {
+    static generateShortCode() {
         const characters = "abcdefghijklmnopqrstuvwxyz0123456789"
         let code = ""
         for (let i = 0; i < 6; i++) {
@@ -106,6 +108,20 @@ export class Url {
             return response
         } catch (error: any) {
             console.error("hubo un problema al eliminar el id ingresado en Supabase", error.message)
+            throw new Error(error.message)
+        }
+    }
+
+    static async countVisits(code: string) {
+        try {
+            const { data, error } = await supabase
+                .rpc("increment", { value: 1, row_code: code })
+            if (error) {
+                throw new Error(error.message)
+            }
+            return data
+        } catch (error: any) {
+            console.error("hubo un error al incrementar el valor de la visita:", error.message)
             throw new Error(error.message)
         }
     }

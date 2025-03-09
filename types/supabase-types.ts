@@ -19,11 +19,11 @@ export type Database = {
           visits: number | null
         }
         Insert: {
-          code: string | null
+          code?: string | null
           created_at?: string
           id?: number
-          short_url: string | null
-          url: string | null
+          short_url?: string | null
+          url?: string | null
           visits?: number | null
         }
         Update: {
@@ -41,11 +41,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment: {
+        Args: {
+          value: number
+          row_code: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
-        [_ in never]: never
-      }
+      [_ in never]: never
+    }
     CompositeTypes: {
       [_ in never]: never
     }
@@ -148,4 +154,3 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
-
