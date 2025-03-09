@@ -16,7 +16,7 @@ export type Database = {
           id: number
           short_url: string | null
           url: string | null
-          visited: number | null
+          visits: number | null
         }
         Insert: {
           code: string | null
@@ -24,7 +24,7 @@ export type Database = {
           id?: number
           short_url: string | null
           url: string | null
-          visited?: number | null
+          visits?: number | null
         }
         Update: {
           code?: string | null
@@ -32,7 +32,7 @@ export type Database = {
           id?: number
           short_url?: string | null
           url?: string | null
-          visited?: number | null
+          visits?: number | null
         }
         Relationships: []
       }
